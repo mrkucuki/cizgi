@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Çizgi — Boho Resort, Bodrum
 
-## Getting Started
+A state-of-the-art marketing site for **Çizgi**, a minimalist boho resort on the
+Bodrum Peninsula. Bright Aegean-whitewash aesthetic, full-bleed photography,
+WhatsApp-first conversion.
 
-First, run the development server:
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm start        # serve the production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js 16** (App Router) · **React 19** · **TypeScript**
+- **Tailwind CSS v4** (CSS-first theme in `src/app/globals.css`)
+- **shadcn/ui** (base-nova style — built on **Base UI**, not Radix) for primitives
+- **Magic UI** — BlurFade, Marquee, BorderBeam, etc. (motion-based reveals/accents)
+- **Aceternity UI** — ImagesSlider (hero), FocusCards (experiences)
+- **motion** (the `motion` package) · **Embla** carousel + autoplay · **lucide-react**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> ℹ️ These libraries aren't npm packages — their components were pulled into this
+> repo as editable source via the `shadcn` CLI (`npx shadcn@latest add <url>`).
+> Everything in `src/components/ui` is yours to re-skin.
 
-## Learn More
+> ⚠️ **Base UI gotcha:** components use the `render` prop, **not** `asChild`
+> (e.g. `<SheetClose render={<Link … />} />`), and Accordion uses `multiple`,
+> not `type`/`collapsible`.
 
-To learn more about Next.js, take a look at the following resources:
+## Edit the content (no component digging required)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| What | Where |
+| --- | --- |
+| **WhatsApp number, phone, email, address, Instagram** | `src/lib/site.ts` — ⚠️ the WhatsApp number is a **placeholder**, replace `contact.whatsapp` (digits only, country code first) |
+| Suites, experiences, testimonials, stats, gallery, nearby | `src/lib/content.ts` |
+| Colours, fonts, radii (the "Aegean whitewash" system) | `src/app/globals.css` (`:root` + `@theme inline`) |
+| Photos | `public/gallery/` (semantic filenames) — originals kept in `images/` |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Pages
 
-## Deploy on Vercel
+- `/` — hero slider, brand story + stats, suites carousel, experiences, gallery teaser, Bodrum location, testimonials marquee, closing CTA
+- `/suites` · `/experiences` · `/gallery` (lightbox) · `/contact` (WhatsApp inquiry form + map + FAQ)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Conversion
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Every CTA points to WhatsApp via `whatsappUrl()`. The contact form composes the
+guest's details into a pre-filled WhatsApp message — no backend required. A
+floating WhatsApp button is fixed on every page.
+
+## Image credits
+
+The 10 photos in `public/gallery/` were provided for this build. Replace with
+licensed photography of the actual property before going live.
